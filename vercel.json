@@ -1,0 +1,1 @@
+{ "crons": [ { "path": "/api/predict?snap=1", "schedule": "50 4 * * 0-5" } ] }

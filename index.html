@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sun Rates – सुन चाँदी भाउ</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf8f1;--fg:#1c1a14;--mute:#8a8473;--line:#e7e0cf;--card:#f3eee1;--up:#0a9f6e;--dn:#e5484d;--gold:#b8892b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0e0a;--fg:#f4efe0;--mute:#8d8672;--line:#2a261b;--card:#1a1810;--gold:#e0b04e}}
+:root[data-theme="dark"]{--bg:#0f0e0a;--fg:#f4efe0;--mute:#8d8672;--line:#2a261b;--card:#1a1810;--gold:#e0b04e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'Sora','Noto Sans Devanagari',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;padding:16px 20px 40px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:700;letter-spacing:.04em;font-size:18px;color:var(--gold)}
+.tr{display:flex;align-items:center;gap:14px}
+.lang{display:flex;gap:2px;background:var(--card);padding:3px;border-radius:10px}
+.lang button{border:0;background:transparent;color:var(--mute);font:600 12px 'Sora','Noto Sans Devanagari',sans-serif;padding:5px 10px;border-radius:8px;cursor:pointer;margin:0}
+.lang button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mute)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+@keyframes p{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.seg{display:flex;gap:8px;margin:22px 0 6px}
+.seg button{border:0;background:transparent;color:var(--mute);font:600 15px 'Sora','Noto Sans Devanagari',sans-serif;padding:6px 0;margin-right:14px;cursor:pointer;border-bottom:2px solid transparent}
+.seg button[aria-pressed=true]{color:var(--fg);border-color:var(--fg)}
+.price{font-size:38px;font-weight:700;letter-spacing:-.03em;margin-top:10px;font-variant-numeric:tabular-nums}
+.sub{font-size:14px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.sub small{color:var(--mute);font-weight:400;margin-left:6px}
+.up{color:var(--up)}.dn{color:var(--dn)}
+#chart{width:100%;height:220px;margin-top:16px;touch-action:pan-y;display:block;user-select:none}
+.ranges{display:flex;justify-content:space-between;margin-top:6px}
+.ranges button{border:0;background:transparent;color:var(--mute);font:600 13px 'Sora','Noto Sans Devanagari',sans-serif;padding:8px 14px;border-radius:18px;cursor:pointer}
+.ranges button[aria-pressed=true]{background:var(--tint);color:var(--c)}
+.unit{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding:14px 16px;background:var(--card);border-radius:14px;font-size:14px}
+.unit div{display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:10px}
+.unit button{border:0;background:transparent;color:var(--mute);font:600 13px 'Sora','Noto Sans Devanagari',sans-serif;padding:6px 12px;border-radius:8px;cursor:pointer}
+.unit button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+h2{font-size:16px;margin:28px 0 8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.stats div{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--mute)}
+.stats b{display:block;color:var(--fg);font-size:15px;margin-top:2px;font-variant-numeric:tabular-nums}
+.row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;font-variant-numeric:tabular-nums}
+.row span:first-child{color:var(--mute)}
+.oc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.oc div{background:var(--card);border-radius:14px;padding:12px;font-size:12px;color:var(--mute)}
+.oc small{display:block;margin-top:6px;font-size:11px;line-height:1.35}
+.oc b{display:block;color:var(--fg);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:12px 0 10px;gap:2px}
+.bar i{display:block;min-width:4px}
+.pl{display:flex;justify-content:space-between;font-size:13px;font-variant-numeric:tabular-nums}
+.pl span{display:flex;flex-direction:column;gap:2px;color:var(--mute)}
+.pl b{font-size:20px;letter-spacing:-.02em}
+.pr{margin-top:12px;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.r3{display:grid;grid-template-columns:1.2fr 1fr 1.2fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;font-variant-numeric:tabular-nums}
+.r3.h{color:var(--mute);font-size:12px;padding:6px 0}
+.r3 span:nth-child(n+2){text-align:right}
+.note{margin-top:26px;font-size:12px;color:var(--mute);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand">Sun Rates</div><div class="tr"><div class="live"><span class="dot"></span><span id="stamp"></span></div><div class="lang" id="lang"><button aria-pressed="true" data-l="ne">नेपाली</button><button aria-pressed="false" data-l="en">EN</button></div></div></div>
+  <div class="seg" id="metal"><button aria-pressed="true" data-m="gold" data-i="gold"></button><button aria-pressed="false" data-m="silver" data-i="silver"></button></div>
+  <div class="price" id="price"></div>
+  <div class="sub" id="chg"></div>
+  <svg id="chart" viewBox="0 0 400 220" preserveAspectRatio="none" role="img" aria-label="Price chart"></svg>
+  <div class="ranges" id="ranges"></div>
+  <div class="unit"><span data-i="per"></span><div id="unit"><button aria-pressed="true" data-u="tola" data-i="tola"></button><button aria-pressed="false" data-u="10g" data-i="g10"></button></div></div>
+  <h2 data-i="oc"></h2>
+  <div class="oc" id="oc"></div>
+  <h2 data-i="pred"></h2>
+  <div id="pred"></div>
+  <h2 data-i="today"></h2>
+  <div class="stats" id="stats"></div>
+  <h2 data-i="recent"></h2>
+  <div id="days"></div>
+  <p class="note" data-i="note"></p>
+</div>
+<script>
+const RANGES=[['1D',2],['1W',7],['1M',30],['3M',90],['1Y',365]];
+const G_PER_TOLA=11.664;
+let lang='ne';try{lang=localStorage.getItem('mm-lang')||'ne'}catch(e){}
+const T={
+ne:{live:'असोज १८, बिहान १०:३०',otime:'असोज १७, बिहान १०:३०',ctime:'असोज १८, बिहान १०:३०',rt:'१०:३०',yday:'हिजो १०:३०',tday:'आज १०:३०',chgl:'परिवर्तन',gold:'सुन',silver:'चाँदी',per:'मूल्य देखाउने एकाइ',tola:'तोला',g10:'१० ग्राम',today:'आज',recent:'हालका दिन',
+note:'स्रोत: फेनेगोसिडा। दिनमा एउटा भाउ प्रकाशित हुन्छ, त्यसैले अघिल्लो भाउ खुल्ला र पछिल्लो भाउ बन्द मानिएको छ।',
+oc:'खुल्ने र बन्द हुने भाउ',pred:'भोलिको अनुमान',open2:'खुल्ला (हिजोको भाउ)',last:'बन्द (आजको भाउ)',pclose:'परिवर्तन',openH:'खुल्ला',closeH:'बन्द',up:'बढ्ने',flat:'स्थिर',down:'घट्ने',exp:'भोलिको सम्भावित दायरा',pnote:'यो अनुमान अन्तर्राष्ट्रिय भाउको प्रत्यक्ष चाल र विगतको उतारचढावमा आधारित सामान्य तथ्याङ्कीय मोडल हो, लगानी सल्लाह होइन।',past:'विगत ',open:'खुल्ला',prev:'अघिल्लो बन्द',h30:'३०-दिन उच्च',l30:'३०-दिन न्यून',h52:'५२-हप्ता उच्च',l52:'५२-हप्ता न्यून',rs:'रु ',upd:'अपडेट ',wait:'अनुमान तयार हुँदैछ। बिहान १०:३० को भाउ आएपछिको पहिलो अपडेटमा देखिन्छ।',drift:'भाउ तोकिएदेखिको प्रत्यक्ष चाल',hit:'आधारभूत जाँच (विगत भाउ)',chart:'मूल्य ग्राफ'},
+en:{live:'Ashwin 18, 10:30 am',otime:'Ashwin 17, 10:30 am',ctime:'Ashwin 18, 10:30 am',rt:'10:30',yday:'Yesterday 10:30',tday:'Today 10:30',chgl:'Change',gold:'Gold',silver:'Silver',per:'Show price per',tola:'Tola',g10:'10 g',today:'Today',recent:'Recent days',
+note:"Source: FENEGOSIDA. One rate is published a day, so the previous rate is shown as the open and the latest as the close.",
+oc:'Opening & closing',pred:'Tomorrow\'s outlook',open2:'Open (yesterday\'s rate)',last:'Close (today\'s rate)',pclose:'Change',openH:'Open',closeH:'Close',up:'Rise',flat:'Flat',down:'Fall',exp:'Likely range tomorrow',pnote:'A simple statistical estimate from the live international price move and past volatility. Not investment advice; real rates can differ.',past:'Past ',open:'Open',prev:'Previous close',h30:'30-day high',l30:'30-day low',h52:'52-week high',l52:'52-week low',rs:'Rs ',upd:'Updated ',wait:'Prediction is warming up. It appears after the first update that follows the 10:30 rate.',drift:'Live move since the rate was set',hit:'Baseline check (past rates)',chart:'Price chart'}};
+const t=k=>T[lang][k];
+const dig=x=>lang=='ne'?String(x).replace(/[0-9]/g,d=>'०१२३४५६७८९'[d]):String(x);
+const loc=()=>lang=='ne'?'ne-NP':'en-US';
+function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.getElementById('chart').setAttribute('aria-label',t('chart'));document.querySelectorAll('#lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l==lang))}
+let metal='gold',unit='tola',range='1M',data={},scrub=null;
+let loaded=false,stamp='';
+const fd=x=>{const d=new Date(x);return isNaN(d)?'':dig(d.toLocaleDateString(loc(),{month:'short',day:'numeric'}))+' · '+t('rt')};
+function mk(x){
+  let h=(x.history||[]).filter(e=>e&&e.price);
+  if(h.length<2)h=[{date:'',price:x.prev??x.price},{date:x.date,price:x.price}];
+  if(h[h.length-1].price!==x.price)h.push({date:x.date,price:x.price});
+  const p=h.map(e=>e.price),n=p.length;
+  return {daily:p,dates:h.map(e=>e.date),opens:p.map((v,i)=>i?p[i-1]:v),open:p[n-2],intra:[p[n-2],p[n-1]]};
+}
+async function load(){
+  try{
+    const r=await(await fetch('/api/rates')).json();
+    data={gold:mk(r.gold),silver:mk(r.silver)};
+    try{const q=await(await fetch('/api/predict')).json();data.gold.pred=q.gold;data.silver.pred=q.silver}catch(e){}
+    loaded=true;stamp=dig(new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+  }catch(e){}
+  all();
+}
+const f=(v)=>{const k=unit=='tola'?1:10/G_PER_TOLA;v=v*k;return t('rs')+dig(Math.round(v).toLocaleString('en-IN'))};
+function series(){const d=data[metal];if(range=='1D')return d.intra;const n=RANGES.find(x=>x[0]==range)[1];return d.daily.slice(-n)}
+function label(i,n){
+  if(range=='1D')return i?t('tday'):t('yday');
+  const ds=data[metal].dates.slice(-n),dt=new Date(ds[i]);return isNaN(dt)?'':dig(dt.toLocaleDateString(loc(),{month:'short',day:'numeric',year:range=='1Y'?'numeric':undefined}))}
+function draw(){
+  const s=series(),n=s.length,W=400,H=220,pad=14;
+  const lo=Math.min(...s),hi=Math.max(...s),sp=(hi-lo)||1;
+  const X=i=>i/(n-1)*W,Y=v=>pad+(1-(v-lo)/sp)*(H-pad*2);
+  const idx=scrub==null?n-1:scrub,cur=s[idx],start=s[0];
+  const ch=cur-start,pc=ch/start*100,up=ch>=0;
+  const c=up?'var(--up)':'var(--dn)';
+  document.documentElement.style.setProperty('--c',c);
+  document.documentElement.style.setProperty('--tint',up?'rgba(10,159,110,.14)':'rgba(229,72,77,.14)');
+  document.getElementById('price').textContent=f(cur);
+  const el=document.getElementById('chg');
+  el.className='sub '+(up?'up':'dn');
+  const k=unit=='tola'?1:10/G_PER_TOLA;
+  el.innerHTML=(up?'▲ ':'▼ ')+t('rs')+dig(Math.abs(Math.round(ch*k)).toLocaleString('en-IN'))+' ('+dig(Math.abs(pc).toFixed(2))+'%)<small>'+(scrub==null?t('past')+rl(range):label(idx,n))+'</small>';
+  let d='M'+s.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join('L');
+  let o=`<line x1="0" x2="${W}" y1="${Y(start)}" y2="${Y(start)}" stroke="var(--line)" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"/>`;
+  o+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  if(scrub!=null)o+=`<line x1="${X(idx)}" x2="${X(idx)}" y1="0" y2="${H}" stroke="var(--mute)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+  document.getElementById('chart').innerHTML=o;
+  const dots=document.getElementById('dotEl');
+}
+const rl=x=>lang=='ne'?dig(x).replace('D','दि').replace('W','हप्ता').replace('M','महिना').replace('Y','वर्ष'):x;
+function renderRanges(){
+  const A=RANGES.filter(r=>r[1]<=data[metal].daily.length);if(!A.some(r=>r[0]==range))range=A[A.length-1][0];
+  document.getElementById('ranges').innerHTML=A.map(r=>`<button aria-pressed="${r[0]==range}" data-r="${r[0]}">${rl(r[0])}</button>`).join('');
+}
+function renderStats(){
+  const d=data[metal],m30=d.daily.slice(-30),y=d.daily.slice(-365);
+  const S=[[t('h30'),Math.max(...m30)],[t('l30'),Math.min(...m30)]];
+  document.getElementById('stats').innerHTML=S.map(x=>`<div>${x[0]}<b>${f(x[1])}</b></div>`).join('');
+  const nf=v=>dig(Math.round(v*(unit=='tola'?1:10/G_PER_TOLA)).toLocaleString('en-IN'));
+  let h='<div class="r3 h"><span></span><span>'+t('openH')+' · '+t('rt')+'</span><span>'+t('closeH')+' · '+t('rt')+'</span></div>';
+  for(let i=1;i<=Math.min(6,d.daily.length-1);i++){
+    const k=d.daily.length-i,v=d.daily[k],o=d.opens[k],c=v-o,dt=new Date(d.dates[k]);
+    h+=`<div class="r3"><span>${dig(dt.toLocaleDateString(loc(),{month:'short',day:'numeric'}))}</span><span>${nf(o)}</span><span>${nf(v)} <span class="${c>=0?'up':'dn'}">${c>=0?'+':'−'}${dig(Math.abs(c/o*100).toFixed(1))}%</span></span></div>`}
+  document.getElementById('days').innerHTML=h;
+}
+const cdf=z=>{const a=Math.abs(z),tt=1/(1+.2316419*a),dd=.3989423*Math.exp(-a*a/2),pp=dd*tt*(.3193815+tt*(-.3565638+tt*(1.781478+tt*(-1.821256+tt*1.330274))));return z>0?1-pp:pp};
+function renderOC(){
+  const d=data[metal],cl=d.daily[d.daily.length-1],ch=cl-d.open,k=unit=='tola'?1:10/G_PER_TOLA;
+  document.getElementById('oc').innerHTML=`<div>${t('open2')}<b>${f(d.open)}</b><small>${fd(d.dates[d.dates.length-2])}</small></div><div>${t('last')}<b>${f(cl)}</b><small>${fd(d.dates[d.dates.length-1])}</small></div><div>${t('pclose')}<b class="${ch>=0?'up':'dn'}">${ch>=0?'+':'−'}${dig(Math.abs(ch/d.open*100).toFixed(1))}%</b><small>${ch>=0?'+':'−'}${f(Math.abs(ch))}</small></div>`;
+}
+function renderPred(){
+  const p=data[metal].pred,el=document.getElementById('pred');
+  if(!p||!p.ready){el.innerHTML=`<p class="note">${t('wait')}</p>`;return}
+  el.innerHTML=`<div class="bar"><i style="width:${p.pUp}%;background:var(--up)"></i><i style="width:${p.pFlat}%;background:var(--mute)"></i><i style="width:${p.pDown}%;background:var(--dn)"></i></div>
+  <div class="pl"><span class="up"><b>${dig(p.pUp)}%</b>${t('up')}</span><span style="text-align:center"><b style="color:var(--fg)">${dig(p.pFlat)}%</b>${t('flat')}</span><span class="dn" style="text-align:right"><b>${dig(p.pDown)}%</b>${t('down')}</span></div>
+  <div class="pr">${t('exp')}: ${f(p.range[0])} – ${f(p.range[1])}</div>
+  <div class="pr">${t('drift')}: ${p.drift>=0?'+':'−'}${dig((Math.abs(p.drift)*100).toFixed(2))}%</div>
+  <div class="pr">${t('hit')}: ${dig(p.hit.ok)}/${dig(p.hit.n)}</div>
+  <p class="note" style="margin-top:10px">${t('pnote')}</p>`;
+}
+function all(){applyLang();const st=document.getElementById('stamp');if(st)st.textContent=stamp?t('upd')+stamp:'';if(!data[metal]){document.getElementById('price').textContent='…';return}renderOC();renderPred();renderRanges();renderStats();draw()}
+document.getElementById('metal').onclick=e=>{const m=e.target.dataset.m;if(!m)return;metal=m;scrub=null;[...e.currentTarget.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.m==m));all()};
+document.getElementById('lang').onclick=e=>{const l=e.target.dataset.l;if(!l)return;lang=l;try{localStorage.setItem('mm-lang',l)}catch(x){}all()};
+document.getElementById('unit').onclick=e=>{const u=e.target.dataset.u;if(!u)return;unit=u;[...e.currentTarget.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.u==u));all()};
+document.getElementById('ranges').onclick=e=>{const r=e.target.dataset.r;if(!r)return;range=r;scrub=null;all()};
+const ch=document.getElementById('chart');
+function move(e){const b=ch.getBoundingClientRect(),n=series().length;scrub=Math.max(0,Math.min(n-1,Math.round((e.clientX-b.left)/b.width*(n-1))));draw()}
+ch.addEventListener('pointerdown',e=>{ch.setPointerCapture(e.pointerId);move(e)});
+ch.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType=='touch')move(e)});
+ch.addEventListener('pointerup',()=>{scrub=null;draw()});
+ch.addEventListener('pointerleave',()=>{scrub=null;draw()});
+load();setInterval(load,120000);
+</script>
+</body>
+</html>

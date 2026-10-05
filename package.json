@@ -1,0 +1,2 @@
+{ "name": "sun-rates", "private": true, "type": "module",
+  "dependencies": { "nepal-bullion-price": "latest", "@vercel/kv": "^3.0.0" } }
